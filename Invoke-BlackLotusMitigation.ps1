@@ -65,7 +65,7 @@ begin {
 	if (-not $PSBoundParameters.ContainsKey('Org')) { $Org = 'Org' }
 	if (-not $PSBoundParameters.ContainsKey('DelayRebootInSeconds')) { $DelayRebootInSeconds = 28800 }
 	$CompanyRegPath = "HKLM:\SOFTWARE\$($Org)\BLMitigation"
-	New-Item -Path $CompanyRegPath -Force
+	if (-not (Test-Path -Path $CompanyRegPath)) { New-Item -Path $CompanyRegPath -Force }
 	$SBRegPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Secureboot"
 	$KBHotfixes = @('KB5034441', 'KB5037019','KB5036893') #add, replace as needed for your organization and time of installation
 	$Exitcode = $true #assume failure and keep running script until revocation is asserted successfully
